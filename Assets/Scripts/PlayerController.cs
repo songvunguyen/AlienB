@@ -8,7 +8,13 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     Vector2 moveVal;
     public GameObject projectile;
+    public GameObject shield;
+    
+    //Upgradble player variables
+    float health = 100f;
+    float damageModifier = 2f;
     float speed = 10f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -24,8 +30,16 @@ public class PlayerController : MonoBehaviour
     }
 
     void OnFire(InputValue value){
-        GameObject g = Instantiate(projectile, transform.position + new Vector3(0.2f,0,0), projectile.transform.rotation);
+        GameObject g = Instantiate(projectile, transform.position + new Vector3(1f,0,0), projectile.transform.rotation);
         g.GetComponent<Rigidbody2D>().velocity = new Vector2(10,0);
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        if(shield != null){
+            return;
+        }
+        health -= 10f;
+        Debug.Log(health);
     }
 
 }

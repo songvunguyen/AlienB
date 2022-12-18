@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1273315618707621876}
   - component: {fileID: 1273315618707621877}
   - component: {fileID: 1273315618707621878}
+  - component: {fileID: -2959668101053899185}
   m_Layer: 0
   m_Name: Nammo
   m_TagString: Untagged
@@ -123,3 +124,15 @@ CapsuleCollider2D:
   m_Offset: {x: -5.606489e-17, y: -0.001992091}
   m_Size: {x: 0.100000024, y: 0.23398422}
   m_Direction: 0
+--- !u!114 &-2959668101053899185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1273315618707621879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad522aa725607934784328edfc6cd24e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
