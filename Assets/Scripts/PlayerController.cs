@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     Vector2 moveVal;
     public GameObject projectile;
     public GameObject shield;
+    public Animator animator;
     
     //Upgradble player variables
     float health = 100f;
@@ -19,6 +20,13 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
     }
+
+    private void Update() {
+        if(health <= 0){
+            animator.SetBool("isDeath", true); 
+        }
+    }
+
 
     private void FixedUpdate() {
         rb.velocity = new Vector2(moveVal.x * speed, moveVal.y * speed); 
@@ -39,7 +47,11 @@ public class PlayerController : MonoBehaviour
             return;
         }
         health -= 10f;
-        Debug.Log(health);
+        // Debug.Log(health);
+    }
+
+    public void OnDeathAnimationFinished(){
+         Destroy(this.gameObject);
     }
 
 }

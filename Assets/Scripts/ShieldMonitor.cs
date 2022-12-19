@@ -21,6 +21,6 @@ public class ShieldMonitor : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other) {
         shieldHealth -= 10f;
-        Debug.Log(shieldHealth);
+        // Debug.Log(shieldHealth);
     }
 }
