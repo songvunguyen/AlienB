@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
         if(shield != null){
             return;
         }
-        health -= 10f;
+        health -= other.gameObject.GetComponent<Projectile>().damage;
         // Debug.Log(health);
     }
 
