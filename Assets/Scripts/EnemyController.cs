@@ -9,10 +9,11 @@ public class EnemyController : MonoBehaviour
     public GameObject projectile;
     public Animator animator;
     
-    //Upgradble player variables
-    float health = 100f;
-    float damageModifier = 1f;
-    float speed = 2f;
+    //Enemy stat (Adjustable)
+   
+    public float health = 20f;
+    public float damageModifier = 1f;
+    public float speed = 7f;
 
     void Start()
     {
@@ -21,7 +22,7 @@ public class EnemyController : MonoBehaviour
     }
 
     private void Update() {
-        if(health <= 0){
+        if(health == 0){
             animator.SetBool("isDeath", true); 
         }
        
@@ -36,8 +37,9 @@ public class EnemyController : MonoBehaviour
     //enemy will shoot every half a second
     private IEnumerator enemyShoot(){
         GameObject g = Instantiate(projectile, transform.position + new Vector3(faceDir.x,faceDir.y,0), transform.rotation);
+        g.GetComponent<Projectile>().damage *= damageModifier;
         g.GetComponent<Rigidbody2D>().velocity = faceDir * 10f;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         StartCoroutine(enemyShoot());
     }
 
@@ -45,8 +47,13 @@ public class EnemyController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other) {
         if(other.gameObject.tag == "Projectile"){
-            health -= other.gameObject.GetComponent<Projectile>().damage;
+            if((health - other.gameObject.GetComponent<Projectile>().damage) < 0){
+                health = 0;
+            }else{
+                health -= other.gameObject.GetComponent<Projectile>().damage;
+            }  
         }else{
+            //Destroy ship if collision with other ships or barrier
             health = 0;
         }
     }

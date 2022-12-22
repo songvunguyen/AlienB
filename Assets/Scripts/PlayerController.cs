@@ -12,9 +12,9 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     
     //Upgradble player variables
-    float health = 100f;
-    float damageModifier = 2f;
-    float speed = 10f;
+    public float health = 100f;
+    public float damageModifier = 1f;
+    public float speed = 10f;
 
     void Start()
     {
@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update() {
-        if(health <= 0){
+        if(health == 0){
             animator.SetBool("isDeath", true); 
         }
     }
@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
 
     void OnFire(InputValue value){
         GameObject g = Instantiate(projectile, transform.position + new Vector3(1f,0,0), projectile.transform.rotation);
+        g.GetComponent<Projectile>().damage *= damageModifier;
         g.GetComponent<Rigidbody2D>().velocity = new Vector2(10,0);
     }
 
@@ -46,8 +47,17 @@ public class PlayerController : MonoBehaviour
         if(shield != null){
             return;
         }
-        health -= other.gameObject.GetComponent<Projectile>().damage;
-        // Debug.Log(health);
+        
+        if(other.gameObject.tag == "Projectile"){
+            if((health - other.gameObject.GetComponent<Projectile>().damage) < 0){
+                health = 0;
+            }else{
+                health -= other.gameObject.GetComponent<Projectile>().damage;
+            }  
+        }else{
+            //Destroy ship if collision with other ships or barrier
+            health = 0;
+        }
     }
 
     public void OnDeathAnimationFinished(){

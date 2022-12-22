@@ -14,13 +14,21 @@ public class ShieldMonitor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(shieldHealth <= 0){
+        if(shieldHealth == 0){
             Destroy(this.gameObject);
         }
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        shieldHealth -= 10f;
-        // Debug.Log(shieldHealth);
+        if(other.gameObject.tag == "Projectile"){
+            if((shieldHealth - other.gameObject.GetComponent<Projectile>().damage) < 0){
+                shieldHealth = 0;
+            }else{
+                shieldHealth -= other.gameObject.GetComponent<Projectile>().damage;
+            }  
+        }else{
+            //Destroy ship if collision with other ships or barrier
+            shieldHealth = 0;
+        }
     }
 }
