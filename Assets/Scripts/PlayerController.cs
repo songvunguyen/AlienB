@@ -10,15 +10,21 @@ public class PlayerController : MonoBehaviour
     public GameObject projectile;
     public GameObject shield;
     public Animator animator;
+    public UIStatController ui;
     
     //Upgradble player variables
-    public float health = 100f;
-    public float damageModifier = 1f;
+    public float maxHealth = 100f;
+    public float health;
+    public int damageModifier = 1;
     public float speed = 10f;
+    public int speedModifier = 1;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        health = maxHealth;
+        ui.SetMaxHealth(maxHealth);
+        ui.SetStat("Damage x" +damageModifier+ "          Speed x" +speedModifier);
     }
 
     private void Update() {
@@ -51,12 +57,15 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.tag == "Projectile"){
             if((health - other.gameObject.GetComponent<Projectile>().damage) < 0){
                 health = 0;
+                ui.SetHealth(health);
             }else{
                 health -= other.gameObject.GetComponent<Projectile>().damage;
+                ui.SetHealth(health);
             }  
         }else{
             //Destroy ship if collision with other ships or barrier
             health = 0;
+            ui.SetHealth(health);
         }
     }
 
